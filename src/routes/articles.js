@@ -1,8 +1,30 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const SchemaArticles = require("../models/Articles");
+const connectDatabase = require("../services/db");
+const router = express.Router();
 
-router.get("/", function (req, res, next) {
-  res.send("Articles");
+router.get("/", connectDatabase, async (req, res, next) => {
+  const resDB = await SchemaArticles.find();
+  res.status(200).json(resDB);
+});
+
+router.post("/", connectDatabase, async (req, res, next) => {
+  const news = await SchemaArticles.create(
+    ({
+      id,
+      title,
+      url,
+      image_url,
+      new_site,
+      summary,
+      published_at,
+      updated_at,
+      featured,
+      launches,
+      events,
+    } = req.body)
+  );
+  res.status(201).json(news);
 });
 
 module.exports = router;

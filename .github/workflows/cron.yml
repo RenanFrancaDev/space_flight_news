@@ -4,7 +4,7 @@ on:
     - cron: "*/1 * * * *"
 
 jobs:
-  build-node:
+  cron:
     runs-on: ubuntu-latest
     container: node:16
     steps:

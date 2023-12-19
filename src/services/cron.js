@@ -11,10 +11,11 @@ const connectDatabase = require("./db");
     const result = resApi.data.results;
     await SchemaArticles.deleteMany({ id: { $gte: 1 } });
     const schemaFromDB = await SchemaArticles.create(result);
-    console.log("SCHEMA", schemaFromDB.length);
-    return;
+    console.log("SCHEMA", schemaFromDB);
+    console.log("LENGTH", schemaFromDB.length);
+    process.exit(0);
   } catch (error) {
     console.log("ERROR", error);
-    return;
+    process.exit(0);
   }
 })();

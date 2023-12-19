@@ -1,13 +1,18 @@
-const cron = require("node-cron");
 const axios = require("axios");
+const SchemaArticles = require("../models/Articles");
+const connectDatabase = require("./db");
 
-cron.schedule("*/1 * * * *", async () => {
-  const resApi = await axios.get(
-    "https://api.spaceflightnewsapi.net/v4/articles/?limit=10&offset=0"
-  );
-  const result = resApi.data.results;
-
-  await SchemaArticles.deleteMany({ id: { $gte: 1 } });
-
-  await SchemaArticles.create(result);
-});
+(async () => {
+  try {
+    await connectDatabase();
+    const resApi = await axios.get(
+      "https://api.spaceflightnewsapi.net/v4/articles/?limit=10&offset=0"
+    );
+    const result = resApi.data.results;
+    await SchemaArticles.deleteMany({ id: { $gte: 1 } });
+    const schemaFromDB = await SchemaArticles.create(result);
+    console.log("SCHEMA", schemaFromDB.length);
+  } catch (error) {
+    console.log("ERROR", error);
+  }
+})();

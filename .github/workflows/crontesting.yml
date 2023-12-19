@@ -10,13 +10,8 @@ jobs:
         run: |
           touch .env
           echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
-      - name: "teste"
+      - name: teste
         run: echo ${{ secrets.MONGODB_URI }}
-      - name: "Create env file"
-        run: |
-          touch .env
-          echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
-          cat .env
       - uses: actions/checkout@v4
       - name: Use Node.js
         uses: actions/setup-node@v3

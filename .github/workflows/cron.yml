@@ -1,0 +1,15 @@
+name: Cron to update articles database
+on:
+  schedule:
+    - cron: "*/1 * * * *"
+
+jobs:
+  build-node:
+    runs-on: ubuntu-latest
+    container: node:16
+    steps:
+      - run: node --version
+      - run: npm --version
+      - run: actions/checkout@v3
+      - run: npm install
+      - run: node src/services/cron.js

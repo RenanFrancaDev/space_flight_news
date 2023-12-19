@@ -12,17 +12,6 @@ router.get("/", connectDatabase, async (req, res, next) => {
 
 // cron.schedule("* * * * * *", () => console.log("teste cron"));
 
-cron.schedule(" 0 0 * * *", async () => {
-  const resApi = await axios.get(
-    "https://api.spaceflightnewsapi.net/v4/articles/?limit=10&offset=0"
-  );
-  const result = resApi.data.results;
-
-  var news = await SchemaArticles.deleteMany({ id: { $gte: 1 } });
-
-  await SchemaArticles.create(result);
-});
-
 router.get("/api", async (req, res, next) => {
   // res.status(200).json({ mgs: "OK" });
 

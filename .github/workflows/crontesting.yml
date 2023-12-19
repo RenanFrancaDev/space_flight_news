@@ -6,6 +6,10 @@ jobs:
   update_articles:
     runs-on: ubuntu-latest
     steps:
+      - name: create env file
+        run: |
+          touch .env
+          echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
       - name: "teste"
         run: echo ${{ secrets.MONGODB_URI }}
       - name: "Create env file"

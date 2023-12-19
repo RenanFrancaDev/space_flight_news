@@ -12,7 +12,9 @@ const connectDatabase = require("./db");
     await SchemaArticles.deleteMany({ id: { $gte: 1 } });
     const schemaFromDB = await SchemaArticles.create(result);
     console.log("SCHEMA", schemaFromDB.length);
+    return;
   } catch (error) {
     console.log("ERROR", error);
+    return;
   }
 })();

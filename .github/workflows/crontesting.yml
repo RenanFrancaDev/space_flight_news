@@ -1,0 +1,24 @@
+name: Cron TEST
+on:
+  workflow_dispatch:
+
+jobs:
+  update_articles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+      - name: Check node version
+        run: node --version
+      - name: Check npm version
+        run: npm --version
+      - name: Install packages
+        run: npm install
+      - name: create env file
+        run: |
+          touch .env
+          echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
+          node src/services/cron.js

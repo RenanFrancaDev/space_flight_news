@@ -10,36 +10,36 @@ router.get("/", connectDatabase, async (req, res, next) => {
   res.status(200).json(resDB);
 });
 
-// cron.schedule("* * * * * *", () => console.log("teste cron"));
-
-router.get("/api", async (req, res, next) => {
-  // res.status(200).json({ mgs: "OK" });
-
-  const resDB = await axios.get(
-    "https://api.spaceflightnewsapi.net/v4/articles/?limit=1000&offset=0"
-  );
-  const result = resDB.data.results;
-
-  res.status(200).json(result);
+router.get("/:id", connectDatabase, async (req, res, next) => {
+  let idArticle = req.params.id;
+  const resDB = await SchemaArticles.findOne({ id: idArticle });
+  if (!resDB) {
+    throw new Error("Article not found.");
+  }
+  res.status(200).json({
+    status: "OK",
+    statusMensagem: "Books listed in response successfully.",
+    response: resDB,
+  });
 });
 
-// router.post("/", connectDatabase, async (req, res, next) => {
-//   const news = await SchemaArticles.create(
-//     ({
-//       id,
-//       title,
-//       url,
-//       image_url,
-//       new_site,
-//       summary,
-//       published_at,
-//       updated_at,
-//       featured,
-//       launches,
-//       events,
-//     } = req.body)
-//   );
-//   res.status(201).json(news);
-// });
+router.post("/", connectDatabase, async (req, res, next) => {
+  const news = await SchemaArticles.create(
+    ({
+      id,
+      title,
+      url,
+      image_url,
+      new_site,
+      summary,
+      published_at,
+      updated_at,
+      featured,
+      launches,
+      events,
+    } = req.body)
+  );
+  res.status(201).json(news);
+});
 
 module.exports = router;

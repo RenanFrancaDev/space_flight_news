@@ -1,7 +1,8 @@
-name: Cron to update articles database
+# MANUAL TEST
+
+name: Cron TEST
 on:
-  schedule:
-    - cron: "*/10 * * * *"
+  workflow_dispatch:
 
 jobs:
   update_articles:
